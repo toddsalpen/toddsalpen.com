@@ -1,0 +1,13 @@
+<ifmodule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/x-icon A31536000
+    ExpiresByType image/jpeg A31536000
+    ExpiresByType image/bmp A31536000
+    ExpiresByType image/gif A31536000
+    ExpiresByType image/x-icon A31536000
+    ExpiresByType image/jpeg A31536000
+    ExpiresByType image/png A31536000
+    ExpiresByType image/svg+xml A31536000
+    ExpiresByType image/tiff A31536000
+    ExpiresDefault A31536000
+</ifmodule>
