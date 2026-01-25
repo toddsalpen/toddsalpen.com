@@ -1,0 +1,31 @@
+name: Deploy Website
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the latest source code
+        uses: actions/checkout@v4
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          timeout: 90000
+          log-level: verbose
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .gitignore
+            LICENSE
+            README.md
+          state-name: .ftp-deploy-sync-state.json    # Keep track of sync state
+          server-dir: /          # Specify your root directory if needed

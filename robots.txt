@@ -1,0 +1,9 @@
+# robots.txt for Developer Portfolio
+# Author: Hector Salinas
+
+# Allow all search engines to index everything
+User-agent: *
+Allow: /
+
+# Sitemap location (optional but recommended)
+Sitemap: https://hectorsalpen.com/sitemap.xml
