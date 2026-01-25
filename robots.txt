@@ -6,4 +6,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location (optional but recommended)
-Sitemap: https://hectorsalpen.com/sitemap.xml
+Sitemap: https://toddsalpen.com/sitemap.xml
