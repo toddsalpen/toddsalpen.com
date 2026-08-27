@@ -1,0 +1,53 @@
+<?php
+
+declare(strict_types=1);
+
+use ToddSalpen\Support\IconRenderer;
+
+/**
+ * One .album-card, structurally identical to the hand-written markup it
+ * replaces. Non-negotiables, each of which breaks something visible if dropped:
+ *
+ *   * class="album-card fade-in" — without fade-in the IntersectionObserver in
+ *     assets/js/scripts.js never adds .visible and the card stays at opacity:0.
+ *   * the .play-btn button — scripts.js binds to it.
+ *   * "•" is U+2022 with a regular space either side.
+ *   * album links carry no target="_blank" and no rel, matching the source.
+ *
+ * @var array<string, mixed> $album
+ */
+
+defined('TS_APP') || exit;
+
+$e = static fn (mixed $value): string => htmlspecialchars(
+    is_scalar($value) ? (string) $value : '',
+    ENT_QUOTES | ENT_SUBSTITUTE,
+    'UTF-8'
+);
+
+$trackCount = $album['track_count'] ?? null;
+
+// The singular branch never fires on current data (minimum is 4 tracks) but it
+// costs one expression and prevents "1 Tracks" later.
+$subtitle = $album['subtitle_override']
+    ?? trim((string) ($album['genre'] ?? '') . ($trackCount !== null
+        ? ' • ' . (int) $trackCount . ' Track' . ((int) $trackCount === 1 ? '' : 's')
+        : ''));
+?>
+                <div class="album-card fade-in">
+                    <div class="album-cover">
+                        <img src="<?= $e($album['cover_image'] ?? '') ?>" alt="<?= $e($album['cover_alt'] ?? '') ?>">
+                        <div class="album-overlay">
+                            <button class="play-btn"><i class="fa-solid fa-play"></i></button>
+                        </div>
+                    </div>
+                    <div class="album-info">
+                        <h3 class="album-title"><?= $e($album['title'] ?? '') ?></h3>
+                        <p class="album-genre"><?= $e($subtitle) ?></p>
+                        <div class="album-links">
+<?php foreach (($album['links'] ?? []) as $link): ?>
+                            <a href="<?= IconRenderer::href($link['url'] ?? null) ?>" class="album-link" title="<?= $e($link['title_attr'] ?? '') ?>"><?= IconRenderer::html($link) ?></a>
+<?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>

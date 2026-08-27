@@ -1,3 +1,17 @@
 .idea
 .DS_Store
 .idea/
+
+# Secrets — NEVER commit
+app/config/credentials.php
+
+# Runtime
+app/storage/logs/*
+!app/storage/logs/.gitkeep
+!app/storage/logs/.htaccess
+app/storage/cache/*
+!app/storage/cache/.gitkeep
+app/data/*.bak
+
+# FTP deploy state (server-side artefact)
+.ftp-deploy-sync-state.json

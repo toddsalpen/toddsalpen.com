@@ -1,0 +1,19 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Renders the children of <div class="music-grid"> — nothing else.
+ *
+ * @var list<array<string, mixed>> $albums Supplied by the including scope:
+ *      ToddSalpen\View\MusicGridRenderer::render(), or the no-Phalcon branch of
+ *      app/render/music-grid.php. Both pass the AlbumRepository return shape.
+ */
+
+defined('TS_APP') || exit;
+
+$albums = isset($albums) && is_array($albums) ? $albums : [];
+
+foreach ($albums as $album) {
+    include __DIR__ . '/album-card.phtml';
+}

@@ -27,5 +27,9 @@ jobs:
             .gitignore
             LICENSE
             README.md
+            README-DEPLOY.md
+            app/config/credentials.php
+            app/storage/**
+            **/*.log
           state-name: .ftp-deploy-sync-state.json    # Keep track of sync state
           server-dir: /          # Specify your root directory if needed
