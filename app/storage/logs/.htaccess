@@ -1,0 +1,17 @@
+# =============================================================================
+#  Deny ALL web access to the log directory.
+# =============================================================================
+#  Redundant with app/.htaccess by design: on shared hosting any single deny
+#  layer can be silently disabled, and app.log / php-error.log must never be
+#  fetchable over HTTP.
+# =============================================================================
+
+<IfModule mod_authz_core.c>
+    # Apache 2.4
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    # Apache 2.2
+    Order allow,deny
+    Deny from all
+</IfModule>

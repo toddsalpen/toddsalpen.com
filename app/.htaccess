@@ -1,0 +1,23 @@
+# =============================================================================
+#  Deny ALL web access to /app.
+# =============================================================================
+#  This is the single most important file in the application tree: it is what
+#  keeps app/config/credentials.php, app/db/*.sql, app/bin/*.php and
+#  app/storage/logs/* off the public web. The root .htaccess adds a second,
+#  independent guard (RedirectMatch 404 ^/app(/|$)).
+#
+#  VERIFY AFTER EVERY DEPLOY (see README-DEPLOY.md):
+#      GET /app/config/credentials.php  -> 403 or 404, NEVER 200
+#  If it returns 200, AllowOverride is restricted on this host and Tier-2
+#  credential storage is not safe — move credentials above the web root.
+# =============================================================================
+
+<IfModule mod_authz_core.c>
+    # Apache 2.4
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    # Apache 2.2
+    Order allow,deny
+    Deny from all
+</IfModule>

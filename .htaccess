@@ -1,0 +1,28 @@
+# =============================================================================
+#  toddsalpen.com — web root Apache configuration
+# =============================================================================
+#  See README-DEPLOY.md for the post-deploy verification table. Every directive
+#  here is either required for the index.html -> index.php cutover or is a
+#  belt-and-braces guard around /app.
+# =============================================================================
+
+# 1. index.php must win over any index.html that lingers on the server.
+DirectoryIndex index.php index.html
+
+# 2. Belt-and-braces block on the app directory, independent of app/.htaccess.
+RedirectMatch 404 ^/app(/|$)
+
+# 3. Never leak PHP errors to visitors.
+#    php_flag/php_value deliberately OMITTED: they 500 under plain PHP-FPM.
+#    app/bootstrap.php sets display_errors=0 via ini_set(), which always works.
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# 4. Phase 2 only — leave commented until /album/{slug} actually ships.
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteRule ^album/([a-z0-9-]{1,96})/?$ router.php?slug=$1 [L,QSA]
+# </IfModule>
